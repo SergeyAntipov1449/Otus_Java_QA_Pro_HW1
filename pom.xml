@@ -9,24 +9,34 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>20</maven.compiler.source>
-        <maven.compiler.target>20</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <selenuim.version>4.40.0</selenuim.version>
-        <junit-jupiter.version>6.0.2</junit-jupiter.version>
-        <webdrivermanager.verion>6.3.3</webdrivermanager.verion>
+        <webdrivermanager.version>6.3.3</webdrivermanager.version>
         <guice.version>7.0.0</guice.version>
         <logback.version>1.4.14</logback.version>
         <jsoup.version>1.22.1</jsoup.version>
         <compiler.plugin.version>3.14.1</compiler.plugin.version>
-        <surefire.plugin.version>3.5.4</surefire.plugin.version>
+        <surefire.plugin.version>3.5.5</surefire.plugin.version>
         <spotbugs.plugin.version>4.9.8.2</spotbugs.plugin.version>
         <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
-        <allure.version>2.29.0</allure.version>
-        <aspectj.version>1.9.22</aspectj.version>
+        <allure.version>2.29.1</allure.version>
         <browser>chrome</browser>
         <base.url>https://otus.ru</base.url>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.11.4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -38,13 +48,22 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit-jupiter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
         </dependency>
 
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>${webdrivermanager.verion}</version>
+            <version>${webdrivermanager.version}</version>
         </dependency>
 
         <dependency>
@@ -52,64 +71,47 @@
             <artifactId>guice</artifactId>
             <version>${guice.version}</version>
         </dependency>
+
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
         </dependency>
+
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
             <version>${allure.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>${aspectj.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
-            <plugins>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler.plugin.version}</version>
             </plugin>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${surefire.plugin.version}</version>
-                    <configuration>
-                        <argLine>
-                            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                        </argLine>
-                        <systemProperties>
-                            <property>
-                                <name>junit.jupiter.extensions.autodetection.enabled</name>
-                                <value>true</value>
-                            </property>
-                            <property>
-                                <name>allure.results.directory</name>
-                                <value>${project.build.directory}/allure-results</value>
-                            </property>
-                            <property>
-                                <name>browser</name>
-                                <value>${browser}</value>
-                            </property>
-                            <property>
-                                <name>base.url</name>
-                                <value>${base.url}</value>
-                            </property>
-                        </systemProperties>
-                    </configuration>
-                </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.plugin.version}</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                        <browser>${browser}</browser>
+                        <base.url>${base.url}</base.url>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
@@ -145,6 +147,12 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.14.0</version>
             </plugin>
         </plugins>
     </build>
