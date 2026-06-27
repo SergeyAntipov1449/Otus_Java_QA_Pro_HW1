@@ -38,7 +38,7 @@ pipeline {
     stage('Run Tests') {
       steps {
         sh """
-          docker run --name ui-tests-\${BUILD_NUMBER} ${REGISTRY}/ui-tests:latest --base_url ${params.BASE_URL} --browser ${params.BROWSER} || true
+          docker run --name ui-tests-\${BUILD_NUMBER} --shm-size=2g ${REGISTRY}/ui-tests:latest --base_url ${params.BASE_URL} --browser ${params.BROWSER} || true
           docker cp ui-tests-\${BUILD_NUMBER}:/root/ui_test/target/allure-results ./allure-results
           docker rm ui-tests-\${BUILD_NUMBER}
         """

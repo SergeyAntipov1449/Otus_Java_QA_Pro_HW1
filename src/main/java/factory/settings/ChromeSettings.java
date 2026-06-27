@@ -8,6 +8,14 @@ public class ChromeSettings implements BrowserOptions {
   public AbstractDriverOptions settings() {
     ChromeOptions chromeOptions = new ChromeOptions();
     chromeOptions.addArguments("--start-maximized");
+    chromeOptions.addArguments("--no-sandbox");
+    chromeOptions.addArguments("--disable-dev-shm-usage");
+
+    String headless = System.getProperty("headless");
+    if ("true".equalsIgnoreCase(headless)) {
+      chromeOptions.addArguments("--headless=new");
+    }
+
     return chromeOptions;
   }
 }

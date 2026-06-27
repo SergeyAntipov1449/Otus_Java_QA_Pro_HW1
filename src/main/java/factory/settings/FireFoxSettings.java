@@ -8,6 +8,12 @@ public class FireFoxSettings implements BrowserOptions {
   public AbstractDriverOptions settings() {
     FirefoxOptions firefoxOptions = new FirefoxOptions();
     firefoxOptions.addArguments("--start-maximized");
+
+    String headless = System.getProperty("headless");
+    if ("true".equalsIgnoreCase(headless)) {
+      firefoxOptions.addArguments("--headless");
+    }
+
     return firefoxOptions;
   }
 }
