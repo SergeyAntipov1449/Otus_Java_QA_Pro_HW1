@@ -14,22 +14,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxcb-sync1 libxcb-util1 \
     && rm -rf /var/lib/apt/lists/*
 
-
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg && \
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update && apt-get install -y google-chrome-stable --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-
-RUN apt-get update && apt-get install -y firefox-esr --no-install-recommends && \
+RUN apt-get update && apt-get install -y firefox --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
-
 
 RUN wget -q https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux64.tar.gz && \
     tar -xzf geckodriver-v0.35.0-linux64.tar.gz -C /usr/local/bin/ && \
     rm geckodriver-v0.35.0-linux64.tar.gz
 
-# Allure CLI
 RUN wget -q https://github.com/allure-framework/allure2/releases/download/2.32.0/allure-2.32.0.tgz && \
     tar -xzf allure-2.32.0.tgz -C /opt/ && \
     ln -s /opt/allure-2.32.0/bin/allure /usr/local/bin/allure && \
