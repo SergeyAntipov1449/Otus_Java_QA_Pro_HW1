@@ -22,6 +22,10 @@
         <surefire.plugin.version>3.5.4</surefire.plugin.version>
         <spotbugs.plugin.version>4.9.8.2</spotbugs.plugin.version>
         <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
+        <allure.version>2.29.0</allure.version>
+        <aspectj.version>1.9.22</aspectj.version>
+        <browser>chrome</browser>
+        <base.url>https://otus.ru</base.url>
     </properties>
 
     <dependencies>
@@ -58,27 +62,54 @@
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit5</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <plugins>
+            <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler.plugin.version}</version>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.plugin.version}</version>
-                <configuration>
-                    <systemPropertyVariables>
-                        <browser>chrome</browser>
-                        <base.url>https://otus.ru</base.url>
-                    </systemPropertyVariables>
-                </configuration>
-            </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${surefire.plugin.version}</version>
+                    <configuration>
+                        <argLine>
+                            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                        </argLine>
+                        <systemProperties>
+                            <property>
+                                <name>junit.jupiter.extensions.autodetection.enabled</name>
+                                <value>true</value>
+                            </property>
+                            <property>
+                                <name>allure.results.directory</name>
+                                <value>${project.build.directory}/allure-results</value>
+                            </property>
+                            <property>
+                                <name>browser</name>
+                                <value>${browser}</value>
+                            </property>
+                            <property>
+                                <name>base.url</name>
+                                <value>${base.url}</value>
+                            </property>
+                        </systemProperties>
+                    </configuration>
+                </plugin>
 
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
