@@ -31,10 +31,10 @@ RUN wget -q https://github.com/allure-framework/allure2/releases/download/2.32.0
     ln -s /opt/allure-2.32.0/bin/allure /usr/local/bin/allure && \
     rm allure-2.32.0.tgz
 
-RUN mkdir -p /root/ui_test
-WORKDIR /root/ui_test
+RUN mkdir -p /app
+WORKDIR /app
 
-COPY . /root/ui_test
+COPY . /app
 RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
