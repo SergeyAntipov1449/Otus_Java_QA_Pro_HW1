@@ -51,8 +51,8 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearm
     apt-get update && apt-get install -y --no-install-recommends google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
 
-RUN wget -q --user-agent="Mozilla/5.0 (X11; Linux x86_64)" \
-    "https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US" \
+RUN wget -q -L --max-redirect=10 --user-agent="Mozilla/5.0 (X11; Linux x86_64)" \
+    "https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US" \
     -O /tmp/firefox.tar.bz2 && \
     tar -xjf /tmp/firefox.tar.bz2 -C /opt/ && \
     ln -s /opt/firefox/firefox /usr/local/bin/firefox && \
