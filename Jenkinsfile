@@ -38,12 +38,12 @@ pipeline {
         stage('Run Tests') {
             steps {
                 catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                    sh """
-                        docker run --name ui-tests-${BUILD_NUMBER} --shm-size=2g ${REGISTRY}/ui-tests:latest --base_url ${params.BASE_URL} --browser ${params.BROWSER}
-                        docker cp ui-tests-${BUILD_NUMBER}:/root/ui_test/target/allure-results ./allure-results
-                        docker rm ui-tests-${BUILD_NUMBER}
-                    """
+                    sh "docker run --name ui-tests-${BUILD_NUMBER} --shm-size=2g ${REGISTRY}/ui-tests:latest --base_url ${params.BASE_URL} --browser ${params.BROWSER}"
                 }
+                sh """
+                    docker cp ui-tests-${BUILD_NUMBER}:/root/ui_test/target/allure-results ./allure-results
+                    docker rm ui-tests-${BUILD_NUMBER}
+                """
             }
         }
 
