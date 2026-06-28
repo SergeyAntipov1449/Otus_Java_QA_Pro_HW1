@@ -57,11 +57,11 @@ pipeline {
         }
       }
     }
+  }
 
-    stage('Cleanup') {
-      steps {
-        sh "docker rmi ${REGISTRY}/ui-tests:latest || true"
-      }
+  post {
+    always {
+      sh "docker rmi ${REGISTRY}/ui-tests:latest || true"
     }
   }
 }
