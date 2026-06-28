@@ -52,7 +52,7 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearm
     rm -rf /var/lib/apt/lists/*
 
 RUN FIREFOX_VERSION=$(wget -qO- https://product-details.mozilla.org/1.0/firefox_versions.json | python3 -c "import sys,json; print(json.load(sys.stdin)['LATEST_FIREFOX_VERSION'])") && \
-    wget -qL "https://download.mozilla.org/?product=firefox-${FIREFOX_VERSION}-ssl&os=linux64&lang=en-US" -O /tmp/firefox.tar.bz2 && \
+    wget -q "https://ftp.mozilla.org/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2" -O /tmp/firefox.tar.bz2 && \
     tar -xjf /tmp/firefox.tar.bz2 -C /opt/ && \
     ln -s /opt/firefox/firefox /usr/local/bin/firefox && \
     rm /tmp/firefox.tar.bz2
