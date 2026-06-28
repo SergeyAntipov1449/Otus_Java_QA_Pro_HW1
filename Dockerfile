@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gnupg \
     python3 \
     wget \
+    xz-utils \
     libasound2t64 \
     libatk-bridge2.0-0t64 \
     libatk1.0-0t64 \
