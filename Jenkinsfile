@@ -7,19 +7,6 @@ pipeline {
         CONTAINER = "${env.JOB_NAME}-${env.BUILD_NUMBER}"
     }
 
-    parameters {
-        string(
-            name: 'BASE_URL',
-            defaultValue: 'https://otus.ru',
-            description: 'Базовый URL для тестов'
-        )
-        choice(
-            name: 'BROWSER',
-            choices: ['chrome', 'firefox'],
-            description: 'Браузер для запуска тестов'
-        )
-    }
-
     stages {
         stage('Checkout') {
             steps { checkout scm }
